@@ -153,39 +153,40 @@ def send_can_msg_sequence(
     xlclass.XLaccess access_mask,
 ) -> int:
     cdef unsigned int eventCount = len(msgs)
+    cdef xlclass.XLaccess mask = access_mask
+    cdef unsigned int i
+    cdef xlclass.XLstatus xl_status = xldefine.XL_SUCCESS
+    
     cdef xlclass.XLevent* pEvents = <xlclass.XLevent*> malloc(eventCount * sizeof(xlclass.XLevent))
     if not pEvents:
         raise MemoryError("malloc failed")
     memset(pEvents, 0, eventCount * sizeof(xlclass.XLevent))
 
-    cdef xlclass.XLaccess mask = access_mask
-    if eventCount == 1 and msgs[0].channel != None:
-        mask = PyInt_AsUnsignedLongLongMask(msgs[0].channel)
+    try:
+        for i in range(eventCount):
+            pEvents[i].tag = xldefine.e_XLevent_type.XL_TRANSMIT_MSG
+
+            pEvents[i].tagData.msg.id = msgs[i].arbitration_id
+            if msgs[i].is_extended_id:
+                pEvents[i].tagData.msg.id |= xldefine.XL_CAN_EXT_MSG_ID
+
+            pEvents[i].tagData.msg.flags = 0
+            if msgs[i].is_remote_frame:
+                pEvents[i].tagData.msg.flags |= xldefine.XL_CAN_MSG_FLAG_REMOTE_FRAME
+            
+            pEvents[i].tagData.msg.dlc = msgs[i].dlc
+            memcpy(pEvents[i].tagData.msg.data, PyByteArray_AsString(msgs[i].data), PyByteArray_GET_SIZE(msgs[i].data))
+
+        xl_status = xldriver.xlCanTransmit( port_handle, mask, &eventCount, pEvents)
+
+        if xl_status != xldefine.XL_SUCCESS:
+            error_string = xldriver.xlGetErrorString(xl_status)
+            raise VectorOperationError(xl_status, error_string, "xlCanTransmit")
+
+        return eventCount
     
-    cdef unsigned int i
-    for i in range(eventCount):
-        pEvents[i].tag = xldefine.e_XLevent_type.XL_TRANSMIT_MSG
-
-        pEvents[i].tagData.msg.id = msgs[i].arbitration_id
-        if msgs[i].is_extended_id:
-            pEvents[i].tagData.msg.id |= xldefine.XL_CAN_EXT_MSG_ID
-
-        pEvents[i].tagData.msg.flags = 0
-        if msgs[i].is_remote_frame:
-            pEvents[i].tagData.msg.flags |= xldefine.XL_CAN_MSG_FLAG_REMOTE_FRAME
-        
-        pEvents[i].tagData.msg.dlc = msgs[i].dlc
-        memcpy(pEvents[i].tagData.msg.data, PyByteArray_AsString(msgs[i].data), PyByteArray_GET_SIZE(msgs[i].data))
-
-    cdef xlclass.XLstatus xl_status = xldriver.xlCanTransmit( port_handle, mask, &eventCount, pEvents)
-
-    free(pEvents)
-
-    if xl_status != xldefine.XL_SUCCESS:
-        error_string = xldriver.xlGetErrorString(xl_status)
-        raise VectorOperationError(xl_status, error_string, "xlCanTransmit")
-
-    return eventCount
+    finally:
+        free(pEvents)
 
 
 def send_can_fd_msg_sequence(
@@ -206,9 +207,6 @@ def send_can_fd_msg_sequence(
 
     try:
         memset(pXlCanTxEvt, 0, msgCnt * sizeof(xlclass.XLcanTxEvent))
-
-        if msgCnt == 1 and msgs[0].channel != None:
-            mask = PyInt_AsUnsignedLongLongMask(msgs[0].channel)
 
         for i in range(msgCnt):
             pXlCanTxEvt[i].tag = xldefine.XL_CAN_EV_TAG_TX_MSG

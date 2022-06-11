@@ -19,6 +19,11 @@ with open(pkg_dir / "__init__.py") as f:
             version = line.split("=")[-1].strip().strip('"')
             break
 
+
+if not os.getenv("VXLAPI_DIR"):
+    raise RuntimeError("Environment variable VXLAPI_DIR not set.")
+
+
 ext_modules = Cython.Build.cythonize(
     module_list=[
         Extension(

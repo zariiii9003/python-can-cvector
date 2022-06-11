@@ -32,12 +32,12 @@ class CVectorBus(VectorBus):
         return send_can_msg_sequence(
             msgs,
             self.port_handle.value,
-            self.mask,
+            self._get_tx_channel_mask(msgs),
         )
 
     def _send_can_fd_msg_sequence(self, msgs: Sequence[Message]) -> int:
         return send_can_fd_msg_sequence(
             msgs,
             self.port_handle.value,
-            self.mask,
+            self._get_tx_channel_mask(msgs),
         )
