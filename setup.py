@@ -49,6 +49,7 @@ setup(
     author="Artur Drogunow",
     author_email="artur.drogunow@zf.com",
     version=version,
+    url="https://github.com/zariiii9003/python-can-cvector",
     license="LGPL v3",
     packages=find_packages("src"),
     package_dir={"": "src"},
