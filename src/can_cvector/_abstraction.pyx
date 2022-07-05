@@ -87,18 +87,18 @@ def recv_can(
     cdef int channel = index_to_channel_map[xl_event.chanIndex]
 
     msg = object.__new__(Message)
-    msg.timestamp=timestamp
-    msg.arbitration_id=arbitration_id
-    msg.is_extended_id=is_extended_id
-    msg.is_remote_frame=is_remote_frame
-    msg.is_error_frame=is_error_frame
-    msg.is_rx=is_rx
-    msg.is_fd=is_fd
+    msg.timestamp = timestamp
+    msg.arbitration_id = arbitration_id
+    msg.is_extended_id = is_extended_id
+    msg.is_remote_frame = is_remote_frame
+    msg.is_error_frame = is_error_frame
+    msg.is_rx = is_rx
+    msg.is_fd = is_fd
     msg.bitrate_switch = bitrate_switch
     msg.error_state_indicator = error_state_indicator
-    msg.dlc=dlc
-    msg.data=PyByteArray_FromStringAndSize(data, dlc)
-    msg.channel=channel
+    msg.dlc = dlc
+    msg.data = PyByteArray_FromStringAndSize(data, dlc)
+    msg.channel = channel
     return msg
 
 
@@ -135,7 +135,6 @@ def recv_canfd(
             raise VectorOperationError(xl_status, error_string, "xlCanReceive")
 
         tag = xl_can_rx_event.tag
-        data_struct = NULL
         xl_can_rx_event_bytes = <char*> &xl_can_rx_event
 
         if tag == xldefine.XL_CAN_EV_TAG_RX_OK:
