@@ -13,6 +13,7 @@ from cpython.bytearray cimport (
     PyByteArray_FromStringAndSize,
     PyByteArray_AsString,
     PyByteArray_GET_SIZE,
+    PyByteArray_Check,
 )
 from cpython.int cimport PyInt_AsUnsignedLongLongMask
 
@@ -201,18 +202,22 @@ def send_can_msg_sequence(
 
     try:
         for i in range(eventCount):
+            msg = msgs[i]
+            if not PyByteArray_Check(msg.data):
+                raise TypeError("data must be ByteArray")
+
             pEvents[i].tag = xldefine.e_XLevent_type.XL_TRANSMIT_MSG
 
-            pEvents[i].tagData.msg.id = msgs[i].arbitration_id
-            if msgs[i].is_extended_id:
+            pEvents[i].tagData.msg.id = msg.arbitration_id
+            if msg.is_extended_id:
                 pEvents[i].tagData.msg.id |= xldefine.XL_CAN_EXT_MSG_ID
 
             pEvents[i].tagData.msg.flags = 0
-            if msgs[i].is_remote_frame:
+            if msg.is_remote_frame:
                 pEvents[i].tagData.msg.flags |= xldefine.XL_CAN_MSG_FLAG_REMOTE_FRAME
             
-            pEvents[i].tagData.msg.dlc = msgs[i].dlc
-            memcpy(pEvents[i].tagData.msg.data, PyByteArray_AsString(msgs[i].data), PyByteArray_GET_SIZE(msgs[i].data))
+            pEvents[i].tagData.msg.dlc = msg.dlc
+            memcpy(pEvents[i].tagData.msg.data, PyByteArray_AsString(msg.data), PyByteArray_GET_SIZE(msg.data))
 
         with nogil:
             xl_status = xldriver.xlCanTransmit( port_handle, mask, &eventCount, pEvents)
@@ -247,24 +252,27 @@ def send_can_fd_msg_sequence(
         memset(pXlCanTxEvt, 0, msgCnt * sizeof(xlclass.XLcanTxEvent))
 
         for i in range(msgCnt):
+            msg = msgs[i]
+            if not PyByteArray_Check(msg.data):
+                raise TypeError("data must be ByteArray")
             pXlCanTxEvt[i].tag = xldefine.XL_CAN_EV_TAG_TX_MSG
             pXlCanTxEvt[i].transId = 0xFFFF
 
             xl_can_tx_msg = <xlclass.XL_CAN_TX_MSG*> &pXlCanTxEvt[i].canMsg
-            xl_can_tx_msg.canId = msgs[i].arbitration_id
-            if msgs[i].is_extended_id:
+            xl_can_tx_msg.canId = msg.arbitration_id
+            if msg.is_extended_id:
                 xl_can_tx_msg.canId |= xldefine.XL_CAN_EXT_MSG_ID
 
             xl_can_tx_msg.msgFlags = 0
-            if msgs[i].is_fd:
+            if msg.is_fd:
                 xl_can_tx_msg.msgFlags |= xldefine.XL_CAN_TXMSG_FLAG_EDL
-            if msgs[i].bitrate_switch:
+            if msg.bitrate_switch:
                 xl_can_tx_msg.msgFlags |= xldefine.XL_CAN_TXMSG_FLAG_BRS
-            if msgs[i].is_remote_frame:
+            if msg.is_remote_frame:
                 xl_can_tx_msg.msgFlags |= xldefine.XL_CAN_TXMSG_FLAG_RTR
 
-            xl_can_tx_msg.dlc = len_2_dlc(msgs[i].dlc)
-            memcpy(xl_can_tx_msg.data, PyByteArray_AsString(msgs[i].data), PyByteArray_GET_SIZE(msgs[i].data))
+            xl_can_tx_msg.dlc = len_2_dlc(msg.dlc)
+            memcpy(xl_can_tx_msg.data, PyByteArray_AsString(msg.data), PyByteArray_GET_SIZE(msg.data))
 
         with nogil:
             xl_status = xldriver.xlCanTransmitEx(port_handle, mask, msgCnt, &msgCntSent, pXlCanTxEvt)
