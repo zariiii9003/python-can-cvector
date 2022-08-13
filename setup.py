@@ -55,6 +55,7 @@ setup(
     url="https://github.com/zariiii9003/python-can-cvector",
     license="LGPL v3",
     description="A partly cythonized version of the python-can VectorBus",
+    long_description_content_type="text/markdown",
     long_description=long_description,
     classifiers=[
         # a list of all available ones: https://pypi.org/classifiers/
