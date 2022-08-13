@@ -7,7 +7,7 @@ from can_cvector._abstraction import (
     recv_can,
     recv_canfd,
     send_can_msg_sequence,
-    send_can_fd_msg_sequence,
+    send_canfd_msg_sequence,
 )
 
 
@@ -36,7 +36,7 @@ class CVectorBus(VectorBus):
         )
 
     def _send_can_fd_msg_sequence(self, msgs: Sequence[Message]) -> int:
-        return send_can_fd_msg_sequence(
+        return send_canfd_msg_sequence(
             msgs,
             self.port_handle.value,
             self._get_tx_channel_mask(msgs),

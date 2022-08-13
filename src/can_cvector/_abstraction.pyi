@@ -20,7 +20,7 @@ def send_can_msg_sequence(
     port_handle: int,
     access_mask: int,
 ) -> int: ...
-def send_can_fd_msg_sequence(
+def send_canfd_msg_sequence(
     msgs: Sequence[Message],
     port_handle: int,
     access_mask: int,

@@ -232,7 +232,7 @@ def send_can_msg_sequence(
         free(pEvents)
 
 
-def send_can_fd_msg_sequence(
+def send_canfd_msg_sequence(
     msgs,
     xlclass.XLportHandle port_handle,
     xlclass.XLaccess access_mask,
