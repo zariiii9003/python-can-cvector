@@ -15,7 +15,6 @@ from cpython.bytearray cimport (
     PyByteArray_GET_SIZE,
     PyByteArray_Check,
 )
-from cpython.int cimport PyInt_AsUnsignedLongLongMask
 
 
 cdef unsigned char[16] DLC_2_LEN = [0, 1, 2, 3, 4, 5, 6, 7, 8, 12, 16, 20, 24, 32, 48, 64]
