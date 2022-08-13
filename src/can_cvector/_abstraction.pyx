@@ -21,8 +21,9 @@ cdef unsigned char[16] DLC_2_LEN = [0, 1, 2, 3, 4, 5, 6, 7, 8, 12, 16, 20, 24, 3
 
 cdef unsigned char len_2_dlc(unsigned short _len):
     if _len < 8:
-        return _len
+        return <unsigned char> _len
 
+    cdef unsigned char i
     for i in range(16):
         if DLC_2_LEN[i] >= _len:
             return i
