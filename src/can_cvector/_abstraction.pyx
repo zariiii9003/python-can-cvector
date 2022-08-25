@@ -70,7 +70,7 @@ def recv_can(
             is_extended_id = xl_event.tagData.msg.id & xldefine.XL_CAN_EXT_MSG_ID
             is_remote_frame = xl_event.tagData.msg.flags & xldefine.XL_CAN_MSG_FLAG_REMOTE_FRAME
             is_error_frame = xl_event.tagData.msg.flags & xldefine.XL_CAN_MSG_FLAG_ERROR_FRAME
-            is_rx = xl_event.tagData.msg.flags & xldefine.XL_CAN_MSG_FLAG_TX_COMPLETED
+            is_rx = not (xl_event.tagData.msg.flags & xldefine.XL_CAN_MSG_FLAG_TX_COMPLETED)
             is_fd = 0
             bitrate_switch = 0
             error_state_indicator = 0
