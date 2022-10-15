@@ -48,7 +48,7 @@ zip-safe = false
 where = ["src"]
 
 [tool.setuptools.package-data]
-mypkg = ["py.typed", "*.pyi"]
+can_cvector = ["py.typed", "*.pyi"]
 
 [tool.setuptools.dynamic]
 version = { attr = "can_cvector.__version__" }
