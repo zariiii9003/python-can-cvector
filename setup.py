@@ -45,7 +45,7 @@ ext_modules = Cython.Build.cythonize(
 )
 
 package_data = {import_pkg_name: ["py.typed", "*.pyi"]}
-install_requires = ["python-can==4.0.*"]
+install_requires = ["python-can>=4.0,<4.2"]
 
 setup(
     name=distribution_pkg_name,
@@ -65,6 +65,7 @@ setup(
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
         "Programming Language :: Python :: 3.10",
+        "Programming Language :: Python :: 3.11",
         "Programming Language :: Python :: Implementation :: CPython",
         "Operating System :: Microsoft :: Windows",
         "License :: OSI Approved :: GNU Lesser General Public License v3 (LGPLv3)",

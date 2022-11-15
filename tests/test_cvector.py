@@ -6,8 +6,13 @@ from can.interfaces.vector.canlib import get_channel_configs
 def find_serial_of_virtual_channel() -> int:
     vcc_list = get_channel_configs()
     for vcc in vcc_list:
-        if vcc.serialNumber in (0, 100):
-            return vcc.serialNumber
+        try:
+            serial_number = getattr(vcc, "serialNumber")
+        except AttributeError:
+            serial_number = getattr(vcc, "serial_number")
+
+        if serial_number in (0, 100):
+            return serial_number
     raise ValueError("Virtual channel not found")
 
 
