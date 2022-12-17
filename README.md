@@ -41,7 +41,7 @@ from can_cvector import CVectorBus
 bus = CVectorBus(serial=100, channel=0)
 ```
 
-Read the [python-can documentation](https://python-can.readthedocs.io/en/master/) to learn more.
+Read the [python-can documentation](https://python-can.readthedocs.io/en/stable/interfaces/vector.html#vector) to learn more.
 
 ## Test
 
