@@ -33,6 +33,14 @@ classifiers = [
 dependencies = [ "python-can>=4.0,<4.2" ]
 dynamic = [ "version" ]
 
+[project.optional-dependencies]
+dev = [
+    "black==23.3.*",
+    "cibuildwheel",
+    "mypy==1.2.*",
+    "tox==4.*",
+]
+
 [project.entry-points."can.interface"]
 cvector = "can_cvector.cvector:CVectorBus"
 
