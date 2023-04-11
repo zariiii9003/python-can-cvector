@@ -38,6 +38,7 @@ dev = [
     "black==23.3.*",
     "cibuildwheel",
     "mypy==1.2.*",
+    "pipx",
     "tox==4.*",
 ]
 
