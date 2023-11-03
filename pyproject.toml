@@ -30,14 +30,14 @@ classifiers = [
   "License :: OSI Approved :: GNU Lesser General Public License v3 (LGPLv3)",
   "Intended Audience :: Developers",
 ]
-dependencies = [ "python-can>=4.0,<4.3" ]
+dependencies = [ "python-can>=4.0,<4.4" ]
 dynamic = [ "version" ]
 
 [project.optional-dependencies]
 dev = [
-    "black==23.3.*",
+    "black==23.10.*",
     "cibuildwheel",
-    "mypy==1.2.*",
+    "mypy==1.6.*",
     "pipx",
     "tox==4.*",
 ]
