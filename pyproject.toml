@@ -1,6 +1,6 @@
 [build-system]
 build-backend = 'setuptools.build_meta'
-requires = ["setuptools >= 62.0", "cython ~= 0.29.0"]
+requires = ["setuptools >= 62.0", "cython == 3.0.*"]
 
 [project]
 name = "python-can-cvector"
@@ -25,19 +25,20 @@ classifiers = [
   "Programming Language :: Python :: 3.9",
   "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
   "Programming Language :: Python :: Implementation :: CPython",
   "Operating System :: Microsoft :: Windows",
   "License :: OSI Approved :: GNU Lesser General Public License v3 (LGPLv3)",
   "Intended Audience :: Developers",
 ]
-dependencies = [ "python-can>=4.0,<4.4" ]
+dependencies = [ "python-can==4.*" ]
 dynamic = [ "version" ]
 
 [project.optional-dependencies]
 dev = [
-    "black==23.10.*",
+    "black==24.4.*",
     "cibuildwheel",
-    "mypy==1.6.*",
+    "mypy==1.10.*",
     "pipx",
     "tox==4.*",
 ]
