@@ -1,12 +1,12 @@
 [build-system]
 build-backend = 'setuptools.build_meta'
-requires = ["setuptools >= 62.0", "cython == 3.0.*"]
+requires = ["setuptools >= 62.0", "cython == 3.2.*"]
 
 [project]
 name = "python-can-cvector"
 description = 'A partly cythonized version of the python-can VectorBus'
 readme = "README.md"
-requires-python = ">=3.7"
+requires-python = ">=3.8"
 license = { text = "LGPL v3" }
 keywords = [
   "python-can",
@@ -20,15 +20,15 @@ authors = [
 classifiers = [
   "Programming Language :: Cython",
   "Programming Language :: Python",
-  "Programming Language :: Python :: 3.7",
   "Programming Language :: Python :: 3.8",
   "Programming Language :: Python :: 3.9",
   "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: 3.14",
   "Programming Language :: Python :: Implementation :: CPython",
   "Operating System :: Microsoft :: Windows",
-  "License :: OSI Approved :: GNU Lesser General Public License v3 (LGPLv3)",
   "Intended Audience :: Developers",
 ]
 dependencies = [ "python-can==4.*" ]
@@ -39,8 +39,6 @@ dev = [
     "black==24.4.*",
     "cibuildwheel",
     "mypy==1.10.*",
-    "pipx",
-    "tox==4.*",
 ]
 
 [project.entry-points."can.interface"]
