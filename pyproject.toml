@@ -1,6 +1,6 @@
 [build-system]
-build-backend = 'setuptools.build_meta'
-requires = ["setuptools >= 62.0", "cython == 3.2.*"]
+requires = ["scikit-build-core", "cython"]
+build-backend = "scikit_build_core.build"
 
 [project]
 name = "python-can-cvector"
@@ -50,17 +50,15 @@ Issues = "https://github.com/zariiii9003/python-can-cvector/issues"
 Source = "https://github.com/zariiii9003/python-can-cvector"
 Homepage = "https://github.com/zariiii9003/python-can-cvector"
 
-[tool.setuptools]
-zip-safe = false
+[tool.scikit-build]
+cmake.version = ">=3.30.3,<4.2"
+metadata.version.provider = "scikit_build_core.metadata.setuptools_scm"
+sdist.include = ["src/can_cvector/_version.py"]
+wheel.exclude = ["**.pyx", "**.pxd"]
+wheel.packages = ["src/can_cvector"]
 
-[tool.setuptools.packages.find]
-where = ["src"]
-
-[tool.setuptools.package-data]
-can_cvector = ["py.typed", "*.pyi"]
-
-[tool.setuptools.dynamic]
-version = { attr = "can_cvector.__version__" }
+[tool.setuptools_scm]  # Section required
+write_to = "src/can_cvector/_version.py"
 
 [tool.pytest.ini_options]
 minversion = "6.0"

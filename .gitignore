@@ -138,3 +138,4 @@ dmypy.json
 
 # cibuildwheel
 /wheelhouse/
+/src/can_cvector/_version.py
