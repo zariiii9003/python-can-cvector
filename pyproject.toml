@@ -28,6 +28,8 @@ classifiers = [
   "Programming Language :: Python :: 3.13",
   "Programming Language :: Python :: 3.14",
   "Programming Language :: Python :: Implementation :: CPython",
+  "Programming Language :: Python :: Implementation :: PyPy",
+  "Programming Language :: Python :: Free Threading :: 1 - Unstable",
   "Operating System :: Microsoft :: Windows",
   "Intended Audience :: Developers",
 ]
@@ -68,4 +70,5 @@ testpaths = ["tests"]
 [tool.cibuildwheel]
 test-requires = "pytest"
 test-command = "pytest {project}/tests"
-build-frontend = "build"
+build-frontend = "build[uv]"
+enable = ["cpython-freethreading", "pypy"]
